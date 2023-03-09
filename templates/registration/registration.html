@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration{% endblock title %}
+
+{% block content %}
+<h2>Registration</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+            {{form.as_p}}
+            </div>
+    <button type="submit" class="btn btn-primary">Registration</button>
+</form>
+
+    If you forgot your password:
+    <a href="{% url 'password_reset' %}">reset</a><br>
+    <a href="{% url 'home' %}">Bookshelf hub</a>
+
+{% endblock %}
+

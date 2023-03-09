@@ -1,0 +1,48 @@
+{% load  book_hub_tags %}
+<div class="search-bar w3layouts-newsletter">
+    <h3 class="sear-head editContent">Book search...</h3>
+    <form action="{% url 'book_name_search' %}" method="get" class="d-flex editContent">
+        <input type="search" placeholder="Enter a name" name="book_name" class="form-control" required="">
+        <button class="btn1 btn" type="submit"><span class="fa fa-search" aria-hidden="true"></span></button>
+    </form>
+</div>
+<!--preference -->
+<form action="{% url 'books_filter'%}" method="get">
+<div class="left-side my-4">
+    <h3 class="sear-head editContent">Genre</h3>
+    <ul class="w3layouts-box-list">
+        {% for genre in view.get_genres  %}
+        <li class="editContent">
+            <input type="checkbox" class="checked" name="genre" value="{{ genre.name }}">
+            <span class="span editContent">{{ genre.name }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<!-- // preference -->
+<!-- discounts -->
+<div class="left-side">
+    <h3 class="sear-head editContent">Category</h3>
+    <ul class="w3layouts-box-list">
+        {% for category in view.get_category %}
+        <li class="editContent">
+            <input type="checkbox" class="checked" name="category" value="{{ category.name }}">
+            <span class="span editContent">{{ category.name }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="left-side">
+    <h3 class="sear-head editContent">Rating range</h3>
+    <label>From:
+    <input type="range" name="min_rating" min="1" max="5" value="1" oninput="updateRange()">
+</label>
+<label>To:
+    <input type="range" name="max_rating" min="1" max="5" value="5" oninput="updateRange()">
+</label>
+<div id="rangeValues"></div>
+</div>
+<button type="submit" class="btn btn-info">Search</button>
+</form>
+{% get_last_books %}
+

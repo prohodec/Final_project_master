@@ -1,0 +1,64 @@
+ <header class="header">
+        <div class="container-fluid px-lg-5">
+            <!-- nav -->
+            <nav class="py-4">
+                <div id="logo">
+                    <h1><a href="{% url 'home' %}" class="editContent"
+                           style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: Source Sans Pro, sans-serif;">Bookshelf
+                        hub</a></h1>
+                </div>
+
+                <label for="drop" class="toggle">Menu</label>
+                <input type="checkbox" id="drop">
+                <ul class="menu mt-2">
+                    <li class="active"><a href="{% url 'home' %}">Home</a></li>
+
+                    {% if user.is_authenticated%}
+                    <li>
+                        <!-- First Tier Drop Down -->
+                        <label for="drop-2" class="toggle">MY ACCOUNT<span class="fa fa-angle-down"
+                                                                            aria-hidden="true"></span> </label>
+                        <a href="#">MY ACCOUNT<span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                        <input type="checkbox" id="drop-2">
+                        <ul>
+                            <li><a href="{% url 'add_book' %}">post new book</a></li>
+                            <li><a href="{% url 'posted_books' %}">posted books</a></li>
+                            <li><a href="{% url 'purchased_books' %}">purchased book</a></li>
+                            <li><a href="{% url 'withdrawal' %}">balance</a></li>
+                            <li><a href="{% url 'password_change' %}">change password</a>
+                    </li>
+                        </ul>
+                    </li>
+                        <li><a href="{% url 'logout' %}"
+                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Log out</a>
+                    </li>
+
+                    {% else %}
+                    <li><a href="{% url 'login' %}"
+                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Log in</a>
+                    </li>
+                    <li><a href="{% url 'registration' %}"
+                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Registration</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <!-- //nav -->
+        </div>
+    </header>
+    <!-- //header -->
+    <!--/banner-->
+    <div class="banner-info">
+
+        <p class="editContent" style="color:{% if book %} #9fcdff {% else %} white {% endif %}"><b>Find yours among hundreds</b></p>
+        <h3 class="mb-4 editContent" style="color:{% if book %} #9fcdff {% else %} white {% endif %}"><b>All about books</b></h3>
+{#        <div class="ban-buttons">#}
+{##}
+{##}
+
+{##}
+{#        </div>#}
+    </div>
+
+
+

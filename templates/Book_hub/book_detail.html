@@ -1,0 +1,299 @@
+{% extends 'Book_hub/base.html' %}
+{% block title %}{{ book.name }}{% endblock title %}
+{% block container %}
+    <div class="container py-md-3">
+{% endblock container %}
+
+{% block sidebar %}
+    <div class="side-bar col-lg-4">
+{% endblock sidebar %}
+
+{% block book %}
+
+    <div class="left-ads-display col-lg-8">
+        <div class="row">
+            <div class="desc1-left col-md-6">
+                <img src="{{ book.poster.url }}" class="img-fluid" alt="">
+            </div>
+            <div class="desc1-right col-md-6 pl-lg-4">
+                <h3 class="editContent" style="outline: none; cursor: inherit;">
+                    {{ book.name }}
+                </h3>
+                <h5 class="editContent"></h5>
+                <ul>
+                    <li style="list-style: none">
+                        <span><b>tagline:</b> {{ book.tagline }}</span>
+                    </li>
+                    <li style="list-style: none">
+                        <span><b>Posted:</b> {{ book.publish_date.date }}</span>
+                    </li>
+
+                    <li style="list-style: none">
+                        <span><b>Author:</b>{{ book.author.username }}</span>
+                    </li>
+                    <li style="list-style: none"><span><b>Category:</b>
+                                        {{ book.category }}
+                                    </span>
+                    </li>
+                    <li style="list-style: none"><span><b>Genre:</b>
+                                        {{ book.genre }}
+                                    </span>
+                    </li>
+                    <li style="list-style: none">
+                                    <span><b>Price:</b> {% if book.amount %}{{ book.get_price }}$
+                                    {% else %} free {% endif %}</span></li>
+                    <li style="list-style: none">
+                        <a><b>Rate:</b>
+                            {{ book.get_rating }}
+                        </a>
+                    </li>
+                    <li style="list-style: none">
+                    {% if message %}
+                        {{ message }}
+                     {% else %}
+
+                    {% if user.is_authenticated  %}
+                        {% if book.amount %}
+                            {% if user_owner %}
+                                You already own the book, you can see it in <a href="{% url 'purchased_books' %}">your account</a>
+                            {% else %}
+                            <button type="button" id="checkout-button" class="btn btn-outline-success">
+                                $ Buy now</button>
+                            {% endif %}
+                        {% else %}
+                            <form method="post" action="{% url 'book_sent' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_email" value="{{ user.email }}">
+                                <input type="hidden" name="book_id" value="{{ book.id }}">
+                                <button type="submit"  class="btn btn-outline-success">
+                                    recive by mail</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <span><b>Buy:</b><a href="{% url 'login' %}"> Log in </a>or
+                            <a href="{% url 'registration' %}"> register </a>to buy it or take for free</span>
+                    {% endif %}
+                    {% endif %}
+                    </li>
+
+                    <div class="share-desc">
+
+                        <div class="share">
+                            <h4 class="editContent"
+                                style="outline: none; cursor: inherit;">
+                                Share:</h4>
+                            <ul class="w3layouts_social_list list-unstyled">
+
+                                <li>
+                                    <a href="#" class="w3pvt_facebook editContent"
+                                       style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-facebook-f"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="w3pvt_twitter editContent"
+                                       style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-twitter"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="w3pvt_dribble editContent"
+                                       style="outline: none; cursor: inherit;">
+                                                <span class="fa fa-dribbble"
+                                                      style="outline: none; cursor: inherit;"></span>
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                </ul>
+
+            </div>
+        </div>
+        <div class="row sub-para-w3layouts mt-5">
+
+            <h3 class="shop-sing editContent" style="outline: none; cursor: inherit;">
+                About the book "{{ book.name }}":
+            </h3>
+
+            <p class="editContent" style="outline: none; cursor: inherit;">
+                {{ book.description }}
+            </p>
+
+        </div>
+        <hr>
+   {% if user.is_authenticated %}
+    <div class="row">
+            <div class="single-form-left" >
+{#        <div class="container">#}
+            <h2>Rate the book:</h2>
+            {% if error %}
+                <h3 class="editContent" style="outline: none; cursor: inherit; color: darkred">
+                {{ error }}
+                </h3>
+                {% endif %}
+            <form method="post" action="{% url 'rating_add' book.id%}">
+                {% csrf_token %}
+
+                <input type="hidden" name="user" value="{{ user.id }}">
+                <input type="hidden" name="book" value="{{ book.id }}">
+
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" value="1" id="rating1">
+                        <label class="form-check-label" for="rating1">
+                            1
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" value="2" id="rating2">
+                        <label class="form-check-label" for="rating2">
+                            2
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" value="3" id="rating3">
+                        <label class="form-check-label" for="rating3">
+                            3
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" value="4" id="rating4">
+                        <label class="form-check-label" for="rating4">
+                            4
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" value="5" id="rating5">
+                        <label class="form-check-label" for="rating5">
+                            5
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary ">Rate</button>
+            </form>
+        </div>
+    </div>
+        <hr>
+        <br>
+
+        <div class="row">
+            <div class="single-form-left">
+                <!-- contact form grid -->
+                <div class="contact-single">
+                    <h3 class="editContent" style="outline: none; cursor: inherit;">
+                                    <span class="sub-tittle editContent"
+                                          style="outline: none; cursor: inherit;">{{ book.reviews_set.count }}</span>Leave feedback</h3>
+                    <form action="{% url 'review_add' book.id%}" method="post" class="mt-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="book" value="{{ book.id }}">
+                        <input type="hidden" name="user" value="{{ user.id }}">
+                        <div class="form-group editContent"
+                             style="outline: none; cursor: inherit;">
+                            <label for="contactcomment" class="editContent"
+                                   style="outline: none; cursor: inherit;">Your comment
+                                *</label>
+                            <textarea class="form-control border" rows="5" name="text"
+                                      id="contactcomment" required="" style="width: 500px"></textarea>
+                        </div>
+
+                        <button type="submit"
+                                class="mt-3 btn btn-success btn-block py-3"
+                                style="outline: none; cursor: inherit;">Publish
+                        </button>
+
+                    </form>
+                </div>
+                <!--  //contact form grid ends here -->
+            </div>
+        </div>
+    {% else %}
+       <h3 class="editContent" style="outline: none; cursor: inherit;">Login to write a comment or rate the book</h3>
+       <hr>
+       <h3 class="editContent" style="outline: none; cursor: inherit;">
+                                    <span class="sub-tittle editContent"
+                                          style="outline: none; cursor: inherit;">{{ book.reviews_set.count }}</span>feedback:</h3>
+    {% endif %}
+
+
+    {% for review in book.reviews_set.all %}
+            <div class="media py-5">
+
+                <div class="media-body mt-4">
+                    <h5 class="mt-0 editContent"
+                        style="outline: none; cursor: inherit;">{{ review.user.username }} {% if review.is_user_owner %}
+                        (bought the book)
+                    {% else %}
+                        (didn`t buy the book)
+                    {% endif %}</h5>
+                    <p class="mt-2 editContent" style="outline: none; cursor: inherit;">
+                        {{ review.text }}
+                    </p>
+
+                </div>
+            </div>
+    {% endfor %}
+        </div>
+    </div>
+
+
+ </div>   {% endblock book %}
+
+{% block scripts %}
+    {% if book.amount %}
+
+<script>
+
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+// Create an instance of the Stripe object with your publishable API key
+var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+var checkoutButton = document.getElementById("checkout-button");
+checkoutButton.addEventListener("click", function () {
+  fetch("{% url 'create-checkout-session' book.id %}", {
+    method: "POST",
+    headers: {
+        'X-CSRFToken': csrftoken
+    }
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (session) {
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function (result) {
+      // If redirectToCheckout fails due to a browser or network
+      // error, you should display the localized error message to your
+      // customer using error.message.
+      if (result.error) {
+        alert(result.error.message);
+      }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
+    });
+});
+function updateRange() {
+        var startValue = document.getElementsByName("min_rating")[0].value;
+        var endValue = document.getElementsByName("max_rating")[0].value;
+
+        // Ограничение выбора "До" по значению "От"
+        if (endValue < startValue) {
+            endValue = startValue;
+            document.getElementsByName("max_rating")[0].value = endValue;
+        }
+
+        document.getElementById("rangeValues").innerHTML = "Rate range: " + startValue + " - " + endValue;
+    }
+</script>
+
+    {% endif %}
+{% endblock scripts %}

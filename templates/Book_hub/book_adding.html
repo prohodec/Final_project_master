@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Add a book{% endblock title %}
+{% block content %}
+<div class="form-control col-md-3 ce">
+    <h3>Enter/update book info:</h3>
+
+    <form method="post" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{form.name.label_tag}}
+            {{form.name}}
+        </div>
+        <div class="form-group">
+            {{form.tagline.label_tag}}
+            {{form.tagline}}
+        </div>
+        <div class="form-group">
+            {{form.description.label_tag}}
+            {{form.description}}
+        </div>
+        <div class="form-group">
+            {{form.poster.label_tag}}
+            {{form.poster}}
+        </div>
+        <div class="form-group">
+            {{form.file.label_tag}}
+            {{form.file}}
+        </div>
+        <div class="form-group">
+            {{form.genre.label_tag}}
+            {{form.genre}}
+        </div>
+        <div class="form-group">
+            {{form.category.label_tag}}
+            {{form.category}}
+        </div>
+        <div class="form-group">
+            {{form.amount.label_tag}}
+            {{form.amount}}
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'posted_books' %}" class="btn btn-secondary">Back to my books</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">bookshelf hub</a>
+</div>
+{% endblock %}

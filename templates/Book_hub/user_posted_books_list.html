@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %} posted books {% endblock title %}
+{% block header %} bg1 {% endblock header %}
+{% block content %}
+
+<section class="ab-info-main py-md-5 py-3 editContent" style="padding-left: 3rem; padding-right: 3rem;">
+<h2>Your posted books:</h2>
+    {% if object_list %}
+        <div class="container-fluid py-md-4">
+        <div class="left-ads-display col-lg-12">
+            <div class="row">
+                {% for book in object_list %}
+                    <div class="col-md-4 product-men">
+                        <div class="product-shoe-info editContent text-center mt-lg-4">
+                            <div class="men-thumb-item">
+                                <img src="{{ book.poster.url }}" class="img-fluid" alt="err">
+                            </div>
+                            <div class="item-info-product">
+                                <h4 class="">
+                                    <a href="{{ book.get_absolute_url }}" class="editContent">{{ book.name }}</a>
+                                </h4>
+
+                                <div class="product_price">
+                                    <div class="grid-price">
+                                        <span class="money editContent">{{ book.tagline }}</span>
+
+                                    </div>
+                                </div>
+                                <div class="product_price">
+                                    <form action="">
+
+                                        </form>
+                                    <div class="grid-price">
+                                        <span class="money editContent">rating on bookshelf hub: {{ book.get_rating }}
+                                        </span>
+                                    </div>
+                                    <div class="grid-price">
+                                            <a href="{% url 'book_update' book.id%}" class="btn btn-outline-success">Update book info</a>
+                                        <hr>
+                                        <form method="post" action="{% url 'book_delete' %}">
+                                                            {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}">
+                                <button type="submit"  class="btn btn-outline-danger">Delete</button></form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+             <div class="grid-img-right mt-4 text-right bg bg1" >
+                {% include 'include/pagination.html' %}
+            </div>
+        </div>
+
+        </div>
+{% endif %}
+</section>
+{% endblock content %}

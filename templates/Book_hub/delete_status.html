@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Delete status{% endblock title %}
+{% block content %}
+<h3>delete status:</h3>
+    {% if error %}
+       <h3>{{ error }}</h3>
+    {% else %}
+    <h3>{{ book_name }} has been successfully deleted.</h3>
+    {% endif %}
+{% endblock %}
